@@ -1,5 +1,5 @@
 import unittest
-from ssg_functions import textnode_to_htmlnode
+from ssg_functions import textnode_to_htmlnode, split_nodes_delimiter
 from textnode import TextNode, TextType
 
 
@@ -24,6 +24,9 @@ class TestTextNode(unittest.TestCase):
         html_node = textnode_to_htmlnode(node)
         self.assertEqual(html_node.tag, None)
         self.assertEqual(html_node.value, "This is a text node")
+
+    def test_split_nodes_delimiter(self):
+        pass
 
 
 if __name__ == "__main__":

@@ -26,4 +26,19 @@ def textnode_to_htmlnode(text_node, children=None):
 
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
-    pass
+    delimiters = {"*": TextType.BOLD, "_": TextType.ITALIC, "`": TextType.CODE}
+    delimiter_found = False
+    new_nodes = []
+    for n in old_nodes:
+        if n.text_type != TextType.TEXT:
+            new_nodes.append(n)
+        if delimiter in n.text:
+            delimiter_found = True
+            n.split(f" {delimiter}")
+            new_nodes.append(TextNode(f"{n[0]} ", TextType.TEXT))
+            second_split = n[1].split(delimiter)
+            new_nodes.append(TextNode(second_split[0], delimiters[delimiter]))
+            new_nodes.append(TextNode(second_split[1], TextType.TEXT))
+    if not delimiter_found:
+        raise ValueError(f"{delimiter} not present in {n.text}")
+    return new_nodes
