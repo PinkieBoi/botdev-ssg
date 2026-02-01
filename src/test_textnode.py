@@ -9,8 +9,8 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(node, node2)
 
     def test_eq_two(self):
-        node3 = TextNode("This is a text node", TextType.PLAIN)
-        node4 = TextNode("This is a text node", TextType.PLAIN)
+        node3 = TextNode("This is a text node", TextType.TEXT)
+        node4 = TextNode("This is a text node", TextType.TEXT)
         self.assertEqual(node3, node4)
 
     def test_not_eq(self):
