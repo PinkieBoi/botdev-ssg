@@ -19,15 +19,6 @@ class HTMLNode(TextNode):
     def __repr__(self):
         return f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props})"
 
-    def texnode_to_htmlnode(self, text_node):
-        if self.text_type == TextType.LINK and self.url is None:
-            raise ValueError("anchor tag requires href property")
-        if self.text_type == TextType.IMAGE:
-            if self.url is None:
-                raise ValueError("image tag requires URI property")
-            if self.value is None:
-                raise ValueError("image requires a description")
-
 
 class LeafNode(HTMLNode):
     def __init__(self, tag=None, value=None, props=None):
