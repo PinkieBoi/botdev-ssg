@@ -32,7 +32,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
     for n in old_nodes:
         if n.text_type != TextType.TEXT:
-            new_nodes.append(n)
+            new_nodes.append(TextNode(n.text, n.text_type))
         if delimiter in n.text:
             delimiter_found = True
             node_text = n.text.split(f" {delimiter}")
@@ -59,3 +59,26 @@ def extract_md_links(old_node):
         old_node
     )
     return link_data
+
+
+def split_nodes_image(old_nodes):
+    new_nodes = []
+    for n in old_nodes:
+        image_data = extract_md_images(n.text)
+        for d in image_data:
+            new_nodes.append(TextNode(n.text.split(f"![{d[0]}]")[0], TextType.TEXT))
+            new_nodes.append(TextNode(d[0].split(f"{new_nodes[-1][-1]})"), TextType.IMAGE, d[1]))
+        new_nodes.append(TextNode(n.text.split(f"{image_data[-1][1]})")[1], TextType.TEXT))
+    print(new_nodes)
+    return new_nodes
+
+
+def split_nodes_link(old_nodes):
+    new_nodes = []
+    for n in old_nodes:
+        image_data = extract_md_images(n.text)
+        for d in image_data:
+            new_nodes.append(TextNode(f"{n.text.split(f" [{d[0]}]")[0]} ", TextType.TEXT))
+            new_nodes.append(TextNode(d[0], TextType.LINK, d[1]))
+        new_nodes.append(TextNode(n.text.split(f"{image_data[-1][1]})")[1], TextType.TEXT))
+    return new_nodes
