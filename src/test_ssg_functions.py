@@ -18,4 +18,4 @@ class test_extract_md_link(unittest.TestCase):
         matches = extract_md_links(
             "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png)"
         )
-        self.assertListEqual([("image", "https://i.imgur.com/zjjcJKZ.png")], matches)
+        self.assertEqual([("image", "https://i.imgur.com/zjjcJKZ.png")], matches)

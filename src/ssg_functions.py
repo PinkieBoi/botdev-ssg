@@ -50,8 +50,6 @@ def extract_md_images(old_node):
         r'\!\[([a-zA-Z ]+)\]\(([\w]+?\:?\/?\/?[\w+]+?\.\w+\.\w+\/?.+?)\)',
         old_node
     )
-    # alt_text = image_data[0]
-    # image_url = image_data[1]
     return image_data
 
 
