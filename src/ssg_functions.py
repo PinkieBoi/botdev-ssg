@@ -66,19 +66,30 @@ def split_nodes_image(old_nodes):
     for n in old_nodes:
         image_data = extract_md_images(n.text)
         for d in image_data:
-            new_nodes.append(TextNode(n.text.split(f"![{d[0]}]")[0], TextType.TEXT))
-            new_nodes.append(TextNode(d[0].split(f"{new_nodes[-1][-1]})"), TextType.IMAGE, d[1]))
-        new_nodes.append(TextNode(n.text.split(f"{image_data[-1][1]})")[1], TextType.TEXT))
-    print(new_nodes)
+            txt = n.text.split(f"![{d[0]}]")
+            if image_data.index(d) == 0:
+                new_nodes.append(TextNode(n.text.split(f"![{d[0]}]({d[1]})")[0], TextType.TEXT))
+            else:
+                new_nodes.append(TextNode(n.text.split(f"![{d[0]}]({d[1]})")[0].split(f"{image_data[image_data.index(d) - 1][1]})")[1], TextType.TEXT))
+            new_nodes.append(TextNode(d[0], TextType.IMAGE, d[1]))
+            if len(image_data) == 1 or image_data.index(d) == len(image_data) - 1:
+                if len(n.text.split(f"{image_data[-1][1]})")[1]) > 0:
+                    new_nodes.append(TextNode(n.text.split(f"{image_data[-1][1]})")[1], TextType.TEXT))
     return new_nodes
 
 
 def split_nodes_link(old_nodes):
     new_nodes = []
     for n in old_nodes:
-        image_data = extract_md_images(n.text)
-        for d in image_data:
-            new_nodes.append(TextNode(f"{n.text.split(f" [{d[0]}]")[0]} ", TextType.TEXT))
+        link_data = extract_md_links(n.text)
+        for d in link_data:
+            txt = n.text.split(f"[{d[0]}]")
+            if link_data.index(d) == 0:
+                new_nodes.append(TextNode(n.text.split(f"[{d[0]}]({d[1]})")[0], TextType.TEXT))
+            else:
+                new_nodes.append(TextNode(n.text.split(f"[{d[0]}]({d[1]})")[0].split(f"{link_data[link_data.index(d) - 1][1]})")[1], TextType.TEXT))
             new_nodes.append(TextNode(d[0], TextType.LINK, d[1]))
-        new_nodes.append(TextNode(n.text.split(f"{image_data[-1][1]})")[1], TextType.TEXT))
+            if len(link_data) == 1 or link_data.index(d) == len(link_data) - 1:
+                if len(n.text.split(f"{link_data[-1][1]})")[1]) > 0:
+                    new_nodes.append(TextNode(n.text.split(f"{link_data[-1][1]})")[1], TextType.TEXT))
     return new_nodes
