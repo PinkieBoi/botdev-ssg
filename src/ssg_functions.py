@@ -27,7 +27,6 @@ def textnode_to_htmlnode(text_node, children=None):
 
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
-    delimiters = {"*": TextType.BOLD, "_": TextType.ITALIC, "`": TextType.CODE}
     if not any(delimiter in n.text for n in old_nodes):
         raise ValueError(f"{delimiter} not present in nodes provided")
     new_nodes = []
@@ -36,7 +35,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
         node_text = n.text.split(delimiter)
         for split_text in node_text:
             if split_text in special_text:
-                new_nodes.append(TextNode(split_text, delimiters[delimiter]))
+                new_nodes.append(TextNode(split_text, text_type))
             else:
                 new_nodes.append(TextNode(split_text, TextType.TEXT))
     return new_nodes
