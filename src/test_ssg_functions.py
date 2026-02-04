@@ -1,7 +1,19 @@
 import unittest
 from htmlnode import LeafNode
 from textnode import TextNode, TextType
-from ssg_functions import extract_md_images, extract_md_links, split_nodes_image, split_nodes_link
+from ssg_functions import split_nodes_delimiter, extract_md_images, extract_md_links, split_nodes_image, split_nodes_link
+
+
+class test_split_nodes_delimiter(unittest.TestCase):
+    def test_split_nodes_delimiter(self):
+        node = TextNode("This is text with a `code block` word", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
+        nodes = [
+            TextNode("This is text with a ", TextType.TEXT),
+            TextNode("code block", TextType.CODE),
+            TextNode(" word", TextType.TEXT),
+        ]
+        self.assertEqual(new_nodes, nodes)
 
 
 class test_extract_md_images(unittest.TestCase):
