@@ -1,15 +1,22 @@
+import re
 from enum import Enum
 
 
 class TextType(Enum):
-    TEXT = ""
-    BOLD = "b"
-    ITALIC = "i"
-    CODE = "code"
-    LINK = "a"
-    IMAGE = "img"
-
-
+    TEXT = ("", "")
+    BOLD = ("b", r"**(.*?)**")
+    ITALIC = ("i", r"_(.*?)_")
+    CODE = ("code", r"`(.*?)`")
+    LINK = (
+        "a",
+        re.compile(r'\[([^\]]+)\]\(\s*(?:<?([^>]+)>?)(?:\s+["\']([^"\']+)["\'])?\s*\)'),
+    )
+    IMAGE = (
+        "img",
+        re.compile(
+            r'!\[([^\]]+)\]\(\s*(?:<?([^>]+)>?)(?:\s+["\']([^"\']+)["\'])?\s*\)'
+        ),
+    )
 
 
 class TextNode:
@@ -20,9 +27,9 @@ class TextNode:
 
     def __eq__(self, value):
         return (
-            self.text == value.text and
-            self.text_type == value.text_type and
-            self.url == value.url
+            self.text == value.text
+            and self.text_type == value.text_type
+            and self.url == value.url
         )
 
     def __repr__(self):

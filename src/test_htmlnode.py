@@ -7,7 +7,7 @@ class TestHtmlNode(unittest.TestCase):
     def test_eq(self):
         node = HTMLNode('p', 'This is a line of text')
         node2 = HTMLNode('p', 'This is a line of text', None, None)
-        self.assertEqual(print(node), print(node2))
+        self.assertEqual(node, node2)
 
     def test_props_to_html(self):
         node5 = HTMLNode('a', 'link', props='href="https://www.google.com" target="_blank"')

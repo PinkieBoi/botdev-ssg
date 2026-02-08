@@ -2,9 +2,9 @@ from textnode import TextNode, TextType
 
 
 class HTMLNode(TextNode):
-    def __init__(self, tag=None, value=None, children=None, props=None):
+    def __init__(self, tag=None, text=None, children=None, props=None):
         self.tag = tag
-        self.value = value
+        self.text = text
         self.children = children
         self.props = self.props_to_html(props)
 
